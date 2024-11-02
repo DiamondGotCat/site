@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Animation Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">CSS Animation Generator</h1>
+
+        <form id="animationForm" class="space-y-4">
+            <div>
+                <label for="animationName" class="block text-gray-700 font-medium">Animation Name</label>
+                <input type="text" id="animationName" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter animation name">
+            </div>
+            <div>
+                <label for="duration" class="block text-gray-700 font-medium">Duration (seconds)</label>
+                <input type="number" id="duration" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter duration in seconds">
+            </div>
+            
+            <!-- Dynamic Keyframes and Properties -->
+            <div id="keyframesContainer">
+                <h3 class="text-lg font-semibold mb-2">Keyframes & Properties</h3>
+                
+                <!-- Keyframe Block -->
+                <div class="keyframeBlock flex space-x-4 mb-2">
+                    <input type="number" class="keyframe w-1/4 p-2 border border-gray-300 rounded" placeholder="Keyframe (%)">
+                    <input type="text" class="propertyName w-1/4 p-2 border border-gray-300 rounded" placeholder="Property Name (e.g., transform)">
+                    <input type="text" class="propertyValue w-1/2 p-2 border border-gray-300 rounded" placeholder="Property Value (e.g., translateX(100px))">
+                    <button type="button" class="removeKeyframeBtn text-red-500">-</button>
+                </div>
+            </div>
+
+            <button type="button" id="addKeyframeBtn" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">+</button>
+
+            <button type="button" id="generateBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 mt-4">
+                Generate CSS
+            </button>
+        </form>
+
+        <div id="output" class="mt-6">
+            <h2 class="text-lg font-bold mb-2">Generated CSS:</h2>
+            <pre class="bg-gray-100 p-4 rounded" id="cssOutput"></pre>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

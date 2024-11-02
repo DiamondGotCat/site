@@ -1,0 +1,11 @@
+# Secret Folder
+.secret/
+**/config/
+special/
+search/
+ncard/
+uploads/
+
+# Subdomain
+*.kamu.jp/
+

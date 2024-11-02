@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ルート検索ページ</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script defer src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script defer src="script.js"></script>
+  <style>
+    /* ダークモード用の全体スタイル */
+    body {
+      background-color: #1e1e1e;
+      color: #f5f5f5;
+    }
+    .input, .button, .box, .select {
+      background-color: #333;
+      color: #f5f5f5;
+    }
+    .button.is-primary {
+      background-color: #1e90ff; /* 青色のアクセントカラー */
+      border-color: #1e90ff;
+    }
+
+    /* 地図とツールのレイアウト */
+    #map {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    /* ツールパネル */
+    #tool-panel {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      background-color: rgba(30, 30, 30, 0.9);
+      border-radius: 8px;
+      padding: 1rem;
+      z-index: 1000;
+      width: 320px;
+      max-width: 90%;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* フィールドとボタンの横並び */
+    .field.has-addons .control {
+      display: inline-flex;
+      flex: 1;
+    }
+
+    /* パネルの非表示用クラス */
+    .hidden {
+      display: none;
+    }
+
+    /* 表示ボタンのスタイル */
+    #show-panel-button {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      z-index: 1001;
+      display: none;
+    }
+
+    /* レスポンシブ対応 */
+    @media (max-width: 768px) {
+      #tool-panel {
+        width: 100%;
+        left: 0;
+        bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 地図表示エリア -->
+  <div id="map"></div>
+
+  <!-- ツールパネル -->
+  <div id="tool-panel">
+    <h2 class="title is-5" style="color: #1e90ff;">ルート検索</h2>
+
+    <div class="field has-addons">
+      <div class="control">
+        <input class="input has-text-white-bis" type="text" id="startInput" placeholder="スタート地点を入力">
+      </div>
+      <div class="control">
+        <button class="button is-primary" onclick="searchLocation('start')">検索</button>
+      </div>
+    </div>
+    <div id="startResults" class="box"></div>
+
+    <div class="field has-addons">
+      <div class="control">
+        <input class="input has-text-white-bis" type="text" id="goalInput" placeholder="ゴール地点を入力">
+      </div>
+      <div class="control">
+        <button class="button is-primary" onclick="searchLocation('goal')">検索</button>
+      </div>
+    </div>
+    <div id="goalResults" class="box"></div>
+
+    <!-- 交通モードの選択 -->
+    <div class="field">
+      <label class="label has-text-white-bis">交通モード</label>
+      <div class="control">
+        <div class="select">
+          <select id="modeSelect">
+            <option value="driving">車</option>
+            <option value="walking">徒歩</option>
+            <option value="cycling">自転車</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <button class="button is-link" onclick="calculateRoute()">ルート検索</button>
+      </div>
+    </div>
+
+    <!-- パネルの開閉ボタン -->
+    <button class="button is-small is-primary toggle-button" onclick="togglePanel()">ツールを隠す</button>
+  </div>
+
+  <!-- ツールパネルを再表示するボタン -->
+  <button id="show-panel-button" class="button is-small is-primary" onclick="togglePanel()">ツールを表示</button>
+</body>
+</html>
