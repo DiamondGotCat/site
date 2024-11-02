@@ -1,36 +1,3 @@
-<?php
-
-require_once('../config/db.php');
-
-if (isset($_GET['q'])) {
-    $shortId = $_GET['q'];
-
-    // データベースから対応するURLを取得
-    $selectQuery = "SELECT url FROM short_urls WHERE short_id = ?";
-    $stmt = $mysqli->prepare($selectQuery);
-    $stmt->bind_param('s', $shortId);
-    $stmt->execute();
-    $stmt->bind_result($url);
-    $stmt->fetch();
-
-    if ($url) {
-
-        // ステートメントを閉じる
-        $stmt->close();
-
-        // MySQLi 接続を閉じる
-        $mysqli->close();
-
-        header("Location: $url", true, 302);
-
-        exit();
-
-    } else {
-        echo "";
-    }
-}
-
-?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -130,10 +97,41 @@ if (isset($_GET['q'])) {
 
 <section id="apps">
     <div class="container">
-        <form action="url.php" method="get">
-            <input type="text" name="q" id="q" placeholder="Enter ShortID" required>
-            <button type="submit">GO</button>
-        </form>
+        
+    <?php
+
+require_once('../config/db.php');
+
+if (isset($_GET['q'])) {
+    $shortId = $_GET['q'];
+
+    // データベースから対応するURLを取得
+    $selectQuery = "SELECT url FROM short_urls WHERE short_id = ?";
+    $stmt = $mysqli->prepare($selectQuery);
+    $stmt->bind_param('s', $shortId);
+    $stmt->execute();
+    $stmt->bind_result($contents);
+    $stmt->fetch();
+
+    if ($contents) {
+
+        // ステートメントを閉じる
+        $stmt->close();
+
+        // MySQLi 接続を閉じる
+        $mysqli->close();
+
+        echo "<p>$contents</p>"
+
+    } else {
+        echo "<form action=\"url.php\" method=\"get\">
+            <input type=\"text\" name=\"q\" id=\"q\" placeholder=\"Enter ShortID\" required>
+            <button type=\"submit\">GO</button>
+        </form>";
+    }
+}
+
+?>
     </div>
 </section>
 
