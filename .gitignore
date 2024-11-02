@@ -1,3 +1,6 @@
+# Not Needed Files
+.DS_Store
+
 # Secret Folder
 .secret/
 **/config/
