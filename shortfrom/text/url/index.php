@@ -121,7 +121,7 @@ if (isset($_GET['q'])) {
         // MySQLi 接続を閉じる
         $mysqli->close();
 
-        echo "<p>$contents</p>"
+        echo "<p>$contents</p>";
 
     } else {
         echo "<form action=\"url.php\" method=\"get\">
