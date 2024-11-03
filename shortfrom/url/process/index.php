@@ -115,7 +115,7 @@
           $stmt->execute();
 
           // 短縮URLを表示
-          $shortUrl = "https://kamu.jp/shortfrom/url/url?q=$shortId";
+          $shortUrl = "https://kamu.jp/u?q=$shortId";
           echo "<a href='$shortUrl' target='_blank'>$shortUrl</a>";
 
           // ステートメントを閉じる

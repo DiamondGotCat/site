@@ -1,9 +1,43 @@
+<?php
+
+require_once('../shortfrom/config/db.php');
+
+if (isset($_GET['q'])) {
+    $shortId = $_GET['q'];
+
+    // データベースから対応するURLを取得
+    $selectQuery = "SELECT url FROM short_urls WHERE short_id = ?";
+    $stmt = $mysqli->prepare($selectQuery);
+    $stmt->bind_param('s', $shortId);
+    $stmt->execute();
+    $stmt->bind_result($url);
+    $stmt->fetch();
+
+    if ($url) {
+
+        // ステートメントを閉じる
+        $stmt->close();
+
+        // MySQLi 接続を閉じる
+        $mysqli->close();
+
+        header("Location: $url", true, 302);
+
+        exit();
+
+    } else {
+        echo "";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>KAMU</title>
+      <title>to URL - KAMU</title>
       <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
       <script src="https://cdn.tailwindcss.com"></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,19 +82,12 @@
           <ul
             tabindex="0"
             class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-            <li><a>HOME</a></li>
-            <li>
-              <a>ShortURL</a>
-              <ul class="p-2">
-                <li><a href="/u/">from URL</a></li>
-                <li><a href="/t/">from Text</a></li>
-              </ul>
-            </li>
+            <li><a href="/">HOME</a></li>
           </ul>
         </div>
       </div>
       <div class="navbar-center">
-        <a class="btn btn-ghost text-xl">KAMU</a>
+        <a href="/" class="btn btn-ghost text-xl">KAMU</a>
       </div>
       <div class="navbar-end">
         <!-- Navbar End -->
@@ -74,11 +101,17 @@
     <div class="hero bg-base-200 min-h-screen">
       <div class="hero-content text-center">
         <div class="max-w-md">
-          <h1 class="text-5xl font-bold">Hello there</h1>
-          <p class="py-6">
-            Welcome to KAMU's Homepage. <br> We provide various services to make your life easier.
-          </p>
-          <button class="btn btn-primary">Services</button>
+            <h1 class="text-5xl font-bold">to URL</h1>
+
+            <div class="divider"></div>
+            
+            <form action="index.php" method="GET">
+                <div class="flex basis-0">
+                    <input type="text" name="q" placeholder="Enter ShortID..." class="input input-bordered w-full max-w-xs" />
+                    <button type="submit" class="btn btn-primary">Go</button>
+                </div>
+            </form>
+
         </div>
       </div>
     </div>
